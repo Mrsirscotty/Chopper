@@ -3,6 +3,7 @@ Copyright (c) 2018 FIRST
 
 All rights reserved.
 
+
 Redistribution and use in source and binary forms, with or without modification,
 are permitted (subject to the limitations in the disclaimer below) provided that
 the following conditions are met:
@@ -51,7 +52,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  *
  * @see <a href="http://revrobotics.com">REV Robotics Web Page</a>
  */
-@TeleOp(name = "Sensor: REV2mDistance", group = "Sensor")
+@TeleOp(name = "FrontDistance", group = "Sensor")
 
 public class FrontDistance extends LinearOpMode {
 
@@ -60,7 +61,7 @@ public class FrontDistance extends LinearOpMode {
     @Override
     public void runOpMode() {
         // you can use this as a regular DistanceSensor.
-        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+        sensorRange = hardwareMap.get(DistanceSensor.class, "FrontDistance");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
         // methods associated with the Rev2mDistanceSensor class.

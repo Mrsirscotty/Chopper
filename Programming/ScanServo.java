@@ -48,17 +48,18 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Concept: Scan Servo", group = "Concept")
+@TeleOp(name = "ScanServo", group = "Concept")
 
 public class ScanServo extends LinearOpMode {
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
-    static final double MAX_POS     =  1.0;     // Maximum rotational position
-    static final double MIN_POS     =  0.0;     // Minimum rotational position
+    static final double MAX_POS     =  0.70;     // Maximum rotational position
+    static final double MIN_POS     =  0.30;     // Minimum rotational position
 
     // Define class members
-    Servo   servo;
+    Servo   servoLeft;
+    Servo   servoRight;
     double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     boolean rampUp = true;
 
@@ -68,7 +69,8 @@ public class ScanServo extends LinearOpMode {
 
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "left_hand");
+        servoLeft = hardwareMap.get(Servo.class, "leftClaw");
+        servoRight = hardwareMap.get(Servo.class, "rightClaw");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
@@ -103,7 +105,8 @@ public class ScanServo extends LinearOpMode {
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            servo.setPosition(position);
+            servoLeft.setPosition(position);
+            servoRight.setPosition(position);
             sleep(CYCLE_MS);
             idle();
         }
