@@ -30,6 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -52,14 +55,17 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwareChopper
 {
     /* Public OpMode members. */
-    public DcMotor  leftDrive   = null;
-    public DcMotor  rightDrive  = null;
-    public Servo    leftClaw    = null;
-    public Servo    rightClaw   = null;
+    public DcMotor leftDrive = null;
+    public DcMotor rightDrive = null;
+    public Servo    servoLeft    = null;
+    public Servo    servoRight   = null;
+    public ColorSensor sensorColor;
+    public DistanceSensor sensorDistance;
+    public DistanceSensor sensorRange;
+    public DigitalChannel digitalTouch;  // Hardware Device Object
 
     public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
+
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -76,10 +82,25 @@ public class HardwareChopper
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftDrive  = hwMap.get(DcMotor.class, "left_drive");
-        rightDrive = hwMap.get(DcMotor.class, "right_drive");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        leftDrive  = hwMap.get(DcMotor.class, "leftDrive");
+        rightDrive = hwMap.get(DcMotor.class, "rightDrive");
+        leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+
+        // get a reference to our digitalTouch object.
+        digitalTouch = hwMap.get(DigitalChannel.class, "TouchSensor1");
+
+        // set the digital channel to input.
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+
+        // you can use this as a regular DistanceSensor.
+        sensorRange = hwMap.get(DistanceSensor.class, "FrontDistance");
+
+        // get a reference to the color sensor.
+        sensorColor = hwMap.get(ColorSensor.class, "ColorFront");
+
+        // get a reference to the distance sensor that shares the same name.
+        sensorDistance = hwMap.get(DistanceSensor.class, "ColorFront");
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -91,10 +112,10 @@ public class HardwareChopper
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        leftClaw  = hwMap.get(Servo.class, "left_hand");
-        rightClaw = hwMap.get(Servo.class, "right_hand");
-        leftClaw.setPosition(MID_SERVO);
-        rightClaw.setPosition(MID_SERVO);
+        servoLeft = hwMap.get(Servo.class, "leftClaw");
+        servoRight = hwMap.get(Servo.class, "rightClaw");
+        servoLeft.setPosition(MID_SERVO);
+        servoRight.setPosition(MID_SERVO);
     }
  }
 

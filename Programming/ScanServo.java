@@ -58,8 +58,7 @@ public class ScanServo extends LinearOpMode {
     static final double MIN_POS     =  0.30;     // Minimum rotational position
 
     // Define class members
-    Servo   servoLeft;
-    Servo   servoRight;
+    HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
     double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     boolean rampUp = true;
 
@@ -67,10 +66,7 @@ public class ScanServo extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        // Connect to servo (Assume PushBot Left Hand)
-        // Change the text in quotes to match any servo name on your robot.
-        servoLeft = hardwareMap.get(Servo.class, "leftClaw");
-        servoRight = hardwareMap.get(Servo.class, "rightClaw");
+        chopper.init(hardwareMap);
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
@@ -105,8 +101,8 @@ public class ScanServo extends LinearOpMode {
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            servoLeft.setPosition(position);
-            servoRight.setPosition(position);
+            chopper.servoLeft.setPosition(position);
+            chopper.servoRight.setPosition(position);
             sleep(CYCLE_MS);
             idle();
         }

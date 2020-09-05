@@ -56,16 +56,12 @@ public class TouchTest extends LinearOpMode {
      * The lower (first) pin stays unconnected.*
      */
 
-    DigitalChannel digitalTouch;  // Hardware Device Object
+    HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
 
     @Override
     public void runOpMode() {
 
-        // get a reference to our digitalTouch object.
-        digitalTouch = hardwareMap.get(DigitalChannel.class, "TouchSensor1");
-
-        // set the digital channel to input.
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        chopper.init(hardwareMap);
 
         // wait for the start button to be pressed.
         waitForStart();
@@ -76,7 +72,7 @@ public class TouchTest extends LinearOpMode {
 
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
-            if (digitalTouch.getState() == true) {
+            if (chopper.digitalTouch.getState() == true) {
                 telemetry.addData("Digital Touch", "Is Not Pressed");
             } else {
                 telemetry.addData("Digital Touch", "Is Pressed");

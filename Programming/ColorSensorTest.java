@@ -85,17 +85,12 @@ public class ColorSensorTest extends LinearOpMode {
      * to the target object.
      *
      */
-    ColorSensor sensorColor;
-    DistanceSensor sensorDistance;
+    HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
 
     @Override
     public void runOpMode() {
+        chopper.init(hardwareMap);
 
-        // get a reference to the color sensor.
-        sensorColor = hardwareMap.get(ColorSensor.class, "ColorFront");
-
-        // get a reference to the distance sensor that shares the same name.
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "ColorFront");
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -121,18 +116,18 @@ public class ColorSensorTest extends LinearOpMode {
             // convert the RGB values to HSV values.
             // multiply by the SCALE_FACTOR.
             // then cast it back to int (SCALE_FACTOR is a double)
-            Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
-                    (int) (sensorColor.green() * SCALE_FACTOR),
-                    (int) (sensorColor.blue() * SCALE_FACTOR),
+            Color.RGBToHSV((int) (chopper.sensorColor.red() * SCALE_FACTOR),
+                    (int) (chopper.sensorColor.green() * SCALE_FACTOR),
+                    (int) (chopper.sensorColor.blue() * SCALE_FACTOR),
                     hsvValues);
 
             // send the info back to driver station using telemetry function.
             telemetry.addData("Distance (cm)",
-                    String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
-            telemetry.addData("Alpha", sensorColor.alpha());
-            telemetry.addData("Red  ", sensorColor.red());
-            telemetry.addData("Green", sensorColor.green());
-            telemetry.addData("Blue ", sensorColor.blue());
+                    String.format(Locale.US, "%.02f", chopper.sensorDistance.getDistance(DistanceUnit.CM)));
+            telemetry.addData("Alpha", chopper.sensorColor.alpha());
+            telemetry.addData("Red  ", chopper.sensorColor.red());
+            telemetry.addData("Green", chopper.sensorColor.green());
+            telemetry.addData("Blue ", chopper.sensorColor.blue());
             telemetry.addData("Hue", hsvValues[0]);
 
             // change the background color to match the color detected by the RGB sensor.
