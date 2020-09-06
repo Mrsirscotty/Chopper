@@ -46,11 +46,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  This code ALSO requires that the drive Motors have been configured such that a positive
  *  power command moves them forwards, and causes the encoders to count UP.
  *
- *   The desired path in this example is:
- *   - Drive forward for 48 inches
- *   - Spin right for 12 Inches
- *   - Drive Backwards for 24 inches
- *   - Stop and close the claw.
  *
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
  *  that performs the actual movement.
@@ -70,13 +65,13 @@ public class ChopperAuto extends LinearOpMode {
     HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: Neverest 40 1120 Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
+    static final double     DRIVE_SPEED             = 0.4;
+    static final double     TURN_SPEED              = 0.25;
 
     @Override
     public void runOpMode() {
@@ -104,13 +99,24 @@ public class ChopperAuto extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED,   53, 53, 6.0); 
 
-        chopper.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
-        chopper.rightClaw.setPosition(0.0);
+        chopper.leftClaw.setPosition(.6);          
+        chopper.rightClaw.setPosition(.4);
         sleep(1000);     // pause for servos to move
+
+        encoderDrive(TURN_SPEED, -8, 8, 4.0);  
+
+        encoderDrive(DRIVE_SPEED,   20, 20, 4.0); 
+
+        chopper.leftClaw.setPosition(.3);          
+        chopper.rightClaw.setPosition(.7);
+        sleep(1000);     // pause for servos to move
+
+        encoderDrive(DRIVE_SPEED,   -20, -20, 4.0); 
+        encoderDrive(TURN_SPEED, 8, -8, 4.0);  
+
+        encoderDrive(DRIVE_SPEED,   -54, -54, 6.0); 
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
