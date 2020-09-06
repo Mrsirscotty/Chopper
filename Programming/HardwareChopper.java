@@ -57,14 +57,13 @@ public class HardwareChopper
     /* Public OpMode members. */
     public DcMotor leftDrive = null;
     public DcMotor rightDrive = null;
-    public Servo    servoLeft    = null;
-    public Servo    servoRight   = null;
+    public Servo    leftClaw    = null;
+    public Servo    rightClaw   = null;
     public ColorSensor sensorColor;
     public DistanceSensor sensorDistance;
     public DistanceSensor sensorRange;
     public DigitalChannel digitalTouch;  // Hardware Device Object
 
-    public static final double MID_SERVO       =  0.5 ;
 
 
     /* local OpMode members. */
@@ -112,10 +111,10 @@ public class HardwareChopper
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        servoLeft = hwMap.get(Servo.class, "leftClaw");
-        servoRight = hwMap.get(Servo.class, "rightClaw");
-        servoLeft.setPosition(MID_SERVO);
-        servoRight.setPosition(MID_SERVO);
+        leftClaw = hwMap.get(Servo.class, "leftClaw");
+        rightClaw = hwMap.get(Servo.class, "rightClaw");
+        leftClaw.setPosition(.30);
+        rightClaw.setPosition(.70);
     }
  }
 

@@ -101,8 +101,8 @@ public class ScanServo extends LinearOpMode {
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            chopper.servoLeft.setPosition(position);
-            chopper.servoRight.setPosition(position);
+            chopper.leftClaw.setPosition(position);
+            chopper.rightClaw.setPosition(position);
             sleep(CYCLE_MS);
             idle();
         }
