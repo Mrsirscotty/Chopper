@@ -58,15 +58,15 @@ public class TeleOpMain extends LinearOpMode {
     HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double INCREMENT   = 0.002;     // amount to slew servo each CYCLE_MS cycle
+    static final double INCREMENT   = 0.002;     // amount to slow servo 
     static final double MAX_POS     =  0.70;     // Maximum rotational position
     static final double MIN_POS     =  0.30;     // Minimum rotational position
 
     double  left_position = (MIN_POS); 
     double  right_position = (MAX_POS);
-
-    double leftPower;
-    double rightPower;
+    int drivePowerAdjustment = 1;
+    double leftPower = 0;
+    double rightPower = 0;
 
     @Override
     public void runOpMode() {
@@ -82,16 +82,25 @@ public class TeleOpMain extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Setup a variable for each drive wheel to save power level for telemetry
+            if (0<gamepad1.right_trigger) {
+                leftPower = rightPower = gamepad1.right_trigger ;
+            }
+            else if (0<gamepad1.left_trigger) {
+                leftPower = rightPower = -gamepad1.left_trigger ;
+            }
+            else {
+                leftPower  = -gamepad1.left_stick_y ;
+                rightPower = -gamepad1.right_stick_y ; 
+            }
 
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            leftPower  = -gamepad1.left_stick_y ;
-            rightPower = -gamepad1.right_stick_y ;
-
-            // Send calculated power to wheels
-            chopper.leftDrive.setPower(leftPower);
-            chopper.rightDrive.setPower(rightPower);
+            if (gamepad1.a)
+                drivePowerAdjustment = 1;
+            if (gamepad1.b)
+                drivePowerAdjustment = 2;
+            if (gamepad1.x)
+                drivePowerAdjustment = 3;
+            if (gamepad1.y)
+                drivePowerAdjustment = 4;
 
             if (gamepad1.dpad_up) {
                 left_position = (.60); 
@@ -113,6 +122,7 @@ public class TeleOpMain extends LinearOpMode {
                     right_position = MIN_POS;
                 }
             }
+
             if (gamepad1.right_bumper) {
                 // Keep stepping down until we hit the min value.
                 left_position -= INCREMENT ;
@@ -124,15 +134,20 @@ public class TeleOpMain extends LinearOpMode {
                     right_position = MAX_POS;
                 }
             }
+
             // Set the servo to the new position and pause;
             chopper.leftClaw.setPosition(left_position);
             chopper.rightClaw.setPosition(right_position);
 
+            // Send calculated power to wheels
+            chopper.leftDrive.setPower(leftPower/drivePowerAdjustment);
+            chopper.rightDrive.setPower(rightPower/drivePowerAdjustment);
+
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Left Servo Position", "%5.2f", left_position);
-            telemetry.addData("Right Servo Position", "%5.2f", right_position);
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            telemetry.addData("Servo Position", "leftCLaw (%5.2f), rightClaw (%5.2f)", left_position, right_position);
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower/drivePowerAdjustment, rightPower/drivePowerAdjustment);
+            telemetry.addData("Power Adjustment", "(%d) ", drivePowerAdjustment);
             telemetry.update();
         }
     }
