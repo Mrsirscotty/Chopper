@@ -56,11 +56,16 @@ public class TouchTest extends LinearOpMode {
      * The lower (first) pin stays unconnected.*
      */
 
+    //++Create HardwareChopper object
     HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
+
+    //--Moved to HardwareChopper
+    //DigitalChannel digitalTouch;  // Hardware Device Object
 
     @Override
     public void runOpMode() {
 
+        //--initialize HardwareChopper    
         chopper.init(hardwareMap);
 
         // wait for the start button to be pressed.

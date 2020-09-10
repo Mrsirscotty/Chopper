@@ -58,7 +58,13 @@ public class ScanServo extends LinearOpMode {
     static final double MIN_POS     =  0.30;     // Minimum rotational position
 
     // Define class members
+    
+    //++Create HardwareChopper object
     HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
+
+    //--moved to HardwareChopper 
+    //Servo   servo;
+
     double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     boolean rampUp = true;
 
@@ -66,6 +72,7 @@ public class ScanServo extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        //--initialize HardwareChopper    
         chopper.init(hardwareMap);
 
         // Wait for the start button

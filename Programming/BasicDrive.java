@@ -55,7 +55,12 @@ import com.qualcomm.robotcore.util.Range;
 public class BasicDrive extends LinearOpMode {
 
     // Declare OpMode members.
+    //++Create HardwareChopper object
     HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
+    
+    //--moved to HardwareChopper 
+    //--private DcMotor leftDrive = null;
+    //--private DcMotor rightDrive = null;
     private ElapsedTime runtime = new ElapsedTime();
 
 
@@ -64,8 +69,14 @@ public class BasicDrive extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        //--initialize HardwareChopper    
         chopper.init(hardwareMap);
 
+        //--moved to HardwareChopper 
+        //--leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        //--rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        //--leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        //--rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

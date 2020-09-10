@@ -85,12 +85,23 @@ public class ColorSensorTest extends LinearOpMode {
      * to the target object.
      *
      */
+
+    //--moved to HardwareChopper 
+    //--ColorSensor sensorColor;
+    //--DistanceSensor sensorDistance;
+
+    //++Create HardwareChopper object
     HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
 
     @Override
     public void runOpMode() {
+
+        //--initialize HardwareChopper    
         chopper.init(hardwareMap);
 
+        //--moved to HardwareChopper 
+        //--sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
+        //--sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
