@@ -65,7 +65,7 @@ public class TouchTest extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        //--initialize HardwareChopper    
+        //++initialize HardwareChopper    
         chopper.init(hardwareMap);
 
         // wait for the start button to be pressed.

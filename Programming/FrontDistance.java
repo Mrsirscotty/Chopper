@@ -56,11 +56,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class FrontDistance extends LinearOpMode {
 
+    //++Create HardwareChopper object
     HardwareChopper chopper   = new HardwareChopper();   // Use a Chopper's hardware
+
+    //--moved to HardwareChopper    
+    private DistanceSensor sensorRange;
 
     @Override
     public void runOpMode() {
+        //++initialize HardwareChopper    
         chopper.init(hardwareMap);
+
+        //--moved to HardwareChopper 
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
         // methods associated with the Rev2mDistanceSensor class.

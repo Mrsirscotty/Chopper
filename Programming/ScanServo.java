@@ -72,7 +72,7 @@ public class ScanServo extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        //--initialize HardwareChopper    
+        //++initialize HardwareChopper    
         chopper.init(hardwareMap);
 
         // Wait for the start button

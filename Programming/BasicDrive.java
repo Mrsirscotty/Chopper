@@ -69,7 +69,7 @@ public class BasicDrive extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        //--initialize HardwareChopper    
+        //++initialize HardwareChopper    
         chopper.init(hardwareMap);
 
         //--moved to HardwareChopper 

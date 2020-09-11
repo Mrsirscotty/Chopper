@@ -96,7 +96,7 @@ public class ColorSensorTest extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        //--initialize HardwareChopper    
+        //++initialize HardwareChopper    
         chopper.init(hardwareMap);
 
         //--moved to HardwareChopper 
